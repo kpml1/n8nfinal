@@ -1,0 +1,162 @@
+{
+  "name": "test_ai_chat2",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f00cf9b3-a28d-4230-8acf-5233394f1c56",
+      "name": "When chat message received",
+      "webhookId": "219b084b-399e-422e-ae82-c19ab4182748"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=##ROLE:\nאתה סוכן של בית מלון בשם PARIS HOTEL שנמצא ב LAS VEGAS\n\n##TASK:\nלענות בידידות למשתמשים לגבי שאלות על הבית מלון\nותענה תמיד באנגלית\n\n##Details:\nיש לך TOOLS שונים שתוכל לעבוד מולם ולקבל מהם מידע:\n\n **Paris_hotel_info**\nתשתשמש בכלי הזה כדי לקבל את המידע על הבית מלון לפי מה שהמשתמש שואל\n\nאתה מחוייב לענות רק על שאלות שקשורות למלון ולא מעבר\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "4a061f37-7992-4188-ab83-45339351d588",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "5c1b79d4-6a7c-48a5-89d3-75876e4acb4e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "lRT0Xvebt2lZHqJb",
+          "name": "koko14"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "e03a07ae-a334-4198-b4b7-8b7ffdc2e5d8",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        640,
+        144
+      ],
+      "id": "c44e709f-7ef1-4900-a6dc-aafe1b685740",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "url": "https://raw.githubusercontent.com/kokocorona/n8n_test/refs/heads/main/paris_hotel.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        496,
+        176
+      ],
+      "id": "57d43fdc-dd09-4273-a39b-b35e3424af82",
+      "name": "Paris_hotel_info"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Paris_hotel_info": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "173a6390-7fa4-4ffa-a2b7-b3e678e89006",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "07a24f7cca9f76c456d822ef8c0a8467a12b2d5294f790bd74ff3108d278a86f"
+  },
+  "id": "fTyd9MZOPQv97KHX",
+  "tags": []
+}
