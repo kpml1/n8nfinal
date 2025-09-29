@@ -1,0 +1,375 @@
+{
+  "name": "Final_Ai_generated_messege",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Happy Birthdy for everyone",
+        "formDescription": "Generate a birthday greething",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "whos birthday?",
+              "placeholder": "name who you sending the message to",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "תשלח שם",
+              "placeholder": "השם שלך",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "מגדר",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "זכר"
+                  },
+                  {
+                    "option": "נקבה"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "פרטים",
+              "fieldType": "textarea",
+              "placeholder": "מה אותו אדם אוהב לעשות?"
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "מקבל כתובת מייל"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "316b62c7-cb5e-4066-a6f0-59e830357846",
+      "name": "On form submission",
+      "webhookId": "5c210ba5-c670-4e96-a521-682d99cad75f"
+    },
+    {
+      "parameters": {
+        "mode": "combineBySql",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "ecb0d05b-4c3a-450e-9501-378e52e5fbc0",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=אתה סוכן AI \nאתה מקבל מידע  על שמות שולח לפי מגדר פרטים של מייל ומידע סביב פרטים הודעה יכולה להיות קצרה או ארוכה\nהשם הפרטים והמגדר בבקשה להתייחס גם לזה\nלא יותר מ10 שורות\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        224,
+        80
+      ],
+      "id": "7fa72339-8c79-4b4a-ae95-d67727d31194",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        224,
+        256
+      ],
+      "id": "a5be02ea-a772-41e9-915c-429b79e47d97",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "73muTWUEvLgYA8t6",
+          "name": "Google Gemini(PaLM) Api account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appLXBwV7ZRD0selC",
+          "mode": "list",
+          "cachedResultName": "Birthdaymessage",
+          "cachedResultUrl": "https://airtable.com/appLXBwV7ZRD0selC"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl5gBMZK34KZj884",
+          "mode": "list",
+          "cachedResultName": "Birthday1",
+          "cachedResultUrl": "https://airtable.com/appLXBwV7ZRD0selC/tbl5gBMZK34KZj884"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "whos birthday?",
+              "displayName": "whos birthday?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "תשלח שם",
+              "displayName": "תשלח שם",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "מגדר",
+              "displayName": "מגדר",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "פרטים",
+              "displayName": "פרטים",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        768,
+        0
+      ],
+      "id": "f06c3a1c-3b14-4a71-863c-1629e4ede185",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "rkspR3NrTcujnVKL",
+          "name": "kokohakof2.9"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "=מזל טוב ליום הולדתך הקרב ובא\n\nשם: {{ $workflow.name }}\n\nשם השולח\n\nמין\n\nנושאים",
+        "sender": "dvir.teleclal@gmail.com",
+        "receipients": "dvir.teleclal@gmail.com",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.sendInBlue",
+      "typeVersion": 1,
+      "position": [
+        896,
+        144
+      ],
+      "id": "636f2048-19a7-4f3d-9f44-bd56584a1157",
+      "name": "Send a transactional email",
+      "credentials": {
+        "sendInBlueApi": {
+          "id": "0424zp3jdyXFaGVh",
+          "name": "Brevo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "subject": "=מזל טוב ליום הולדתך הקרב ובא\n\nשם: {{ $workflow.name }}\n\nשם השולח\n\nמין\n\nנושאים",
+        "textContent": "={{ $json.name }}",
+        "sender": "dvir.teleclal@gmail.com",
+        "receipients": "dvir.teleclal@gmail.com",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.sendInBlue",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        288
+      ],
+      "id": "60fe039e-8e5f-42a8-8efb-172d55c193c2",
+      "name": "Send a transactional email1",
+      "credentials": {
+        "sendInBlueApi": {
+          "id": "0424zp3jdyXFaGVh",
+          "name": "Brevo account"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "notes": "שלום {{ $json[\"senderName\"] }},\n\nהברכה שלך ל{{ $json[\"recipientName\"] }} נשלחה בהצלחה!\n\nהנה נוסח הברכה:\n{{ $json[\"generatedBlessing\"] }}\n\nתודה שהשתמשת בשירות שלנו!\n"
+    }
+  ],
+  "pinData": {
+    "Send a transactional email": [
+      {
+        "json": {
+          "name": "First item",
+          "code": 1
+        }
+      },
+      {
+        "json": {
+          "name": "Second item",
+          "code": 2
+        }
+      }
+    ],
+    "Create a record": [
+      {
+        "json": {
+          "name": "First item",
+          "code": 1
+        }
+      },
+      {
+        "json": {
+          "name": "Second item",
+          "code": 2
+        }
+      }
+    ]
+  },
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Send a transactional email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a transactional email": {
+      "main": [
+        [
+          {
+            "node": "Send a transactional email1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d9902bfa-2250-4bdd-a73a-ddedc7405d33",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bfa8ea26eeb7b5fb2b55ac279b6468625334f3d6e008a77b752ba7bdc31393ac"
+  },
+  "id": "yJVY7Niy6iIZ6PTc",
+  "tags": []
+}

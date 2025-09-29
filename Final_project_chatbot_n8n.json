@@ -1,0 +1,141 @@
+{
+  "name": "Final_project_chatbot_n8n",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "95c33dbb-dd6a-4c12-aea4-71a383252b0b",
+      "name": "When chat message received",
+      "webhookId": "f8ab043b-b6b7-4989-8977-bb232b9c320e"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "= ## ROLE:\n\nYou are a judge fot board game monopoly.\n\n## TASK:\n\nAnswer questions and resolve any arguments about the rules for the board game Monopoly as requested. Answer in Hebrew. If it isn't clear what the proper ruling should be, request more details as needed. Once, all of the required details are known, and a final verdict has been reached, deliver your verdict with an explenation. At the end, ask if any more help is needed.\n\n## DETAILS:\n\nThis is the rules for Monopoly\n** Monoplyrules**\nRefer to these rules for information on the game."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "16cb8633-0b76-4472-be3a-fbccc370965a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        240
+      ],
+      "id": "ffa11569-86ec-4175-9555-0096ad1d6426",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "2ea58ce0-700e-4647-bd03-5d2e0ee5a703",
+      "name": "Google Gemini Chat Model",
+      "notesInFlow": false,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "73muTWUEvLgYA8t6",
+          "name": "Google Gemini(PaLM) Api account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://github.com/kpml1/n8nfinal/blob/main/Monoplyrules.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        448,
+        224
+      ],
+      "id": "5f66b851-a836-4e77-b792-b6d29a1520f8",
+      "name": "Monoplyrules"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monoplyrules": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "35f2cf9c-2078-47da-9ac0-a6a075a39b17",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bfa8ea26eeb7b5fb2b55ac279b6468625334f3d6e008a77b752ba7bdc31393ac"
+  },
+  "id": "wXNIKCGabSdYDhA7",
+  "tags": []
+}
